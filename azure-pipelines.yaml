@@ -1,19 +1,62 @@
 name: Azure Pipelines
 variables:
   python.version: '3.7.6'
+
 stages:
-- stage: Build
+- stage: Provision
+  displayName: Provision for Azure Pipeline
   jobs:
+    - job: provision_azure_infrastructure
+      displayName: Provisioning AppService
+      steps:
+        - task: DownloadSecureFile@1
+          name: principal
+          displayName: 'Download azure principal confidential'
+          inputs:
+            secureFile: 'set_azure_env.sh'
+
+        - bash: |
+            cp $(Agent.TempDirectory)/set_azure_env.sh $(System.DefaultWorkingDirectory)/terraform
+            cd $(System.DefaultWorkingDirectory)/terraform
+            chmod 755 set_azure_env.sh
+          displayName: Copy set_azure_env.sh
+           
+        - task: InstallSSHKey@0
+          inputs:
+            knownHostsEntry: 'known_hosts'
+            sshPublicKey: $(PUBLIC_KEY)
+            sshKeySecureFile: 'id_rsa'
+
+        - bash: |
+            echo System Default Working Directory: $(System.DefaultWorkingDirectory)
+            echo Azure Principal at : $(principal.secureFilePath)
+            cd $(Agent.TempDirectory)
+            pwd
+            ls -la
+            cat id_rsa.pub
+            cd ~/.ssh/
+            pwd
+            ls -la
+            cat known_hosts
+            cd $(System.DefaultWorkingDirectory)  
+            pwd
+            ls -la
+          displayName: Check build environment
+
+        - task: TerraformInstaller
+          displayName: install terraform
+          inputs:
+              terraformVersion: latest
+
+
+- stage: Build
+  jobs:    
   - job: Build
     pool:
       name: Hosted Ubuntu 1604
     steps:
     # Needed for Terraform VM deployment
-    # - task: InstallSSHKey@0
-    #   inputs:
-    #     knownHostsEntry: 'KNOWN_HOSTS_STRING'
-    #     sshPublicKey: 'PUBLIC_KEY'
-    #     sshKeySecureFile: 'id_rsa'
+    
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:
