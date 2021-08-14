@@ -43,7 +43,7 @@ stages:
             ls -la
           displayName: Check build environment
 
-        - task: TerraformInstaller
+        - task: TerraformInstaller@0
           displayName: install terraform
           inputs:
               terraformVersion: latest
