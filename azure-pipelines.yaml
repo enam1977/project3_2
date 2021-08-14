@@ -8,6 +8,8 @@ stages:
   jobs:
     - job: provision_azure_infrastructure
       displayName: Provisioning AppService
+      pool:
+        vmImage: 'ubuntu-18.04'
       steps:
         - task: DownloadSecureFile@1
           name: principal
@@ -44,7 +46,7 @@ stages:
           displayName: Check build environment
 
         - task: TerraformInstaller@0
-          displayName: install terraform
+          displayName: Install Terraform
           inputs:
               terraformVersion: latest
 
