@@ -11,6 +11,10 @@ stages:
       pool:
         vmImage: 'ubuntu-18.04'
       steps:
+        - task: TerraformInstaller@0
+          displayName: Install Terraform
+          inputs:
+              terraformVersion: latest
         - task: DownloadSecureFile@1
           name: principal
           displayName: 'Download azure principal confidential'
@@ -22,6 +26,12 @@ stages:
           displayName: 'Download SSH Public Key'
           inputs:
             secureFile: 'id_rsa.pub'
+        
+        - task: DownloadSecureFile@1
+          name: privatekey
+          displayName: 'Download SSH private Key'
+          inputs:
+            secureFile: 'id_rsa'
 
         - task: Bash@3
           displayName: "Copy SSH key"
@@ -30,13 +40,21 @@ stages:
             script: |
               mkdir -p ~/.ssh
               cp $(sshkey.secureFilePath) ~/.ssh
+              cp $(privatekey.secureFilePath) ~/.ssh
+              chmod 400 ~/.ssh/id_rsa.pub
               chmod 400 ~/.ssh/id_rsa
                    
         - bash: |
-            cp $(Agent.TempDirectory)/set_azure_env.sh $(System.DefaultWorkingDirectory)/terraform
+            cp $(principal.secureFilePath) $(System.DefaultWorkingDirectory)/terraform
             cd $(System.DefaultWorkingDirectory)/terraform
             chmod 400 set_azure_env.sh
           displayName: Copy set_azure_env.sh
+        
+        - bash: |
+            echo Set Terraform Environment
+            cd $(System.DefaultWorkingDirectory)/terraform
+            ./set_azure_env.sh
+          displayName: Set Terraform Environment
 
         - bash: |
             echo System Default Working Directory: $(System.DefaultWorkingDirectory)
@@ -54,10 +72,7 @@ stages:
             ls -la
           displayName: Check build environment
 
-        - task: TerraformInstaller@0
-          displayName: Install Terraform
-          inputs:
-              terraformVersion: latest
+        
 
 
 - stage: Build

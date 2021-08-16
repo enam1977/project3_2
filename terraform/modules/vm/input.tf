@@ -23,3 +23,4 @@ variable "subnet_id" {
 variable "admin_username" {
     type          = string
 }
+variable "image_id" {}
