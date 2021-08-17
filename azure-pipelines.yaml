@@ -13,10 +13,10 @@ stages:
       steps:
 
         - task: DownloadSecureFile@1
-          name: principal
-          displayName: 'Download azure principal confidential'
+          name: tfvars
+          displayName: 'Download terraform.tfvars'
           inputs:
-            secureFile: 'set_azure_env.sh'
+            secureFile: 'terraform.tfvars'
         
         - task: DownloadSecureFile@1
           name: sshkey
@@ -31,23 +31,17 @@ stages:
             secureFile: 'id_rsa'
 
         - task: Bash@3
-          displayName: "Copy SSH key"
+          displayName: "Copy SSH key & .tfvars"
           inputs:
             targetType: 'inline'
             script: |
               mkdir -p ~/.ssh
               cp $(sshkey.secureFilePath) ~/.ssh
               cp $(privatekey.secureFilePath) ~/.ssh
+              cp $(tfvars.secureFilePath) $(System.DefaultWorkingDirectory)/terraform
               chmod 400 ~/.ssh/id_rsa.pub
               chmod 400 ~/.ssh/id_rsa
-                   
-        - bash: |
-            cp $(principal.secureFilePath) $(System.DefaultWorkingDirectory)/terraform
-            cd $(System.DefaultWorkingDirectory)/terraform
-            chmod 700 set_azure_env.sh
-            ./set_azure_env.sh
-          displayName: Copy and Set set_azure_env.sh
-        
+                          
         # install Terraform
         - task: TerraformInstaller@0
           displayName: Install Terraform
