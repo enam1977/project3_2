@@ -89,10 +89,10 @@ stages:
             backendAzureRmKey: 'terraform.tfstate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         
-        - bash: |
-            echo unlock state blob
-            terraform force-unlock 35d91e94-b05b-7ec9-9c10-7d4f612c4f39
-          displayName: Unlock state blob
+        # - bash: |
+        #     echo unlock state blob
+        #     terraform force-unlock 35d91e94-b05b-7ec9-9c10-7d4f612c4f39
+        #   displayName: Unlock state blob
         
         - task: TerraformTaskV1@0
           displayName: Terraform Apply
