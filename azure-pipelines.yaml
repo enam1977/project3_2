@@ -15,6 +15,7 @@ stages:
           displayName: Install Terraform
           inputs:
               terraformVersion: latest
+
         - task: DownloadSecureFile@1
           name: principal
           displayName: 'Download azure principal confidential'
@@ -71,6 +72,30 @@ stages:
             pwd
             ls -la
           displayName: Check build environment
+        
+        - task: TerraformTaskV1@0
+          displayName: Terraform Init
+          inputs:
+            provider: azurerm
+            command:  init
+            backendServiceArm: 'proj3'
+            backendAzureRmResourceGroupName: 'proj3'
+            backendAzureRmStorageAccountName: 'proj328212'
+            backendAzureRmContainerName: 'proj3con'
+            backendAzureRmKey: 'terraform.tfstate'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        
+        - task: TerraformTaskV1@0
+          displayName: Terraform Apply
+          inputs:
+            provider: azurerm
+            command: 'apply'
+            commandOptions: |
+              -auto-approve
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+            environmentServiceNameAzureRM: 'proj3'
+
+
 
         
 
@@ -94,23 +119,24 @@ stages:
       displayName: 'Upload Package'
       artifact: drop-fakerestapi
 
-- stage:
-  jobs:
-  - deployment: FakeRestAPI
-    pool:
-      vmImage: 'Ubuntu-16.04'
-    environment: 'TEST'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureWebApp@1
-            displayName: 'Deploy Azure Web App'
-            inputs:
-              azureSubscription: ''
-              appName: ''
-              appType: webApp
-              package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+
+# - stage: Deployment
+  # jobs:
+  # - deployment: FakeRestAPI
+  #   pool:
+  #     vmImage: 'Ubuntu-16.04'
+  #   environment: 'TEST'
+  #   strategy:
+  #     runOnce:
+  #       deploy:
+  #         steps:
+  #         - task: AzureWebApp@1
+  #           displayName: 'Deploy Azure Web App'
+  #           inputs:
+  #             azureSubscription: ''
+  #             appName: ''
+  #             appType: webApp
+  #             package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
   
   
   
