@@ -80,7 +80,7 @@ stages:
             ls -la
           displayName: Check build environment
         
-        - task: TerraformTaskV1@0
+        - task: TerraformCLI@0
           displayName: Terraform Init
           inputs:
             provider: azurerm
@@ -92,7 +92,7 @@ stages:
             backendAzureRmKey: 'terraform.tfstate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         
-        - task: TerraformTaskV1@0
+        - task: TerraformCLI@0
           displayName: Terraform Apply
           inputs:
             provider: azurerm
