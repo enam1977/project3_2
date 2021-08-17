@@ -16,8 +16,6 @@ variable address_space {}
 
 #vm
 variable "admin_username" {}
-variable "storage_account_name"{}
-variable "container_name" {}
 variable "image_id"{}
 
 
