@@ -20,7 +20,7 @@ variable "public_ip_address_id" {
 variable "subnet_id" {
     type          = string
 }
-variable "admin_username" {
+variable admin_username {
     type          = string
 }
 variable "image_id" {}

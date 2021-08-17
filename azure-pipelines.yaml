@@ -54,7 +54,13 @@ stages:
             chmod 700 set_azure_env.sh
             ./set_azure_env.sh
           displayName: Set Azure Environment Variables 
-                          
+
+- stage: Terraform 
+  displayName: Terraform Init & Apply 
+  jobs:
+    - job: Install Terraform
+      displayName:  Install Terraform
+      steps:                        
         # install Terraform
         - task: TerraformInstaller@0
           displayName: Install Terraform
@@ -76,7 +82,10 @@ stages:
             pwd
             ls -la
           displayName: Check build environment
-        
+
+    - job: Terraform Init
+      displayName: Terraform Init
+      steps:       
         - task: TerraformTaskV1@0
           displayName: Terraform Init
           inputs:
@@ -94,6 +103,9 @@ stages:
         #     terraform force-unlock 35d91e94-b05b-7ec9-9c10-7d4f612c4f39
         #   displayName: Unlock state blob
         
+    - job: Terraform Apply
+      displayName: Terraform Apply
+      steps:         
         - task: TerraformTaskV1@0
           displayName: Terraform Apply
           inputs:
