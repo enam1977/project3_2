@@ -49,9 +49,9 @@ stages:
         
         # install Terraform
         - task: TerraformInstaller@0
-          displayName: Install Terraform
-          inputs:
-            terraformVersion: latest
+              displayName: Install Terraform
+              inputs:
+                terraformVersion: 'latest'
 
         - task: TerraformTaskV1@0
           displayName: 'check terraform version'
