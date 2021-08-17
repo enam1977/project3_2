@@ -55,8 +55,6 @@ stages:
             ./set_azure_env.sh
           displayName: Set Azure Environment Variables
           
-      
-
         - task: TerraformInstaller@0
           displayName: Install Terraform
           inputs:
@@ -94,7 +92,18 @@ stages:
         #     echo unlock state blob
         #     terraform force-unlock 35d91e94-b05b-7ec9-9c10-7d4f612c4f39
         #   displayName: Unlock state blob
-        
+
+    - job: terraform_apply
+      displayName: Terraform plan & apply
+      steps:  
+        - task: TerraformTaskV1@0
+          displayName: Terraform Plan
+          inputs:
+            provider: azurerm
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+            environmentServiceNameAzureRM: 'proj3'
+
         - task: TerraformTaskV1@0
           displayName: Terraform Apply
           inputs:
