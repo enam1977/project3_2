@@ -11,14 +11,6 @@ stages:
       pool:
         vmImage: 'ubuntu-18.04'
       steps:
-        # install Terraform
-        - task: TerraformInstaller@0
-          displayName: Install Terraform
-
-        - task: TerraformTaskV1@0
-          displayName: 'check terraform version'
-          inputs:
-            command: version
 
         - task: DownloadSecureFile@1
           name: principal
@@ -54,6 +46,17 @@ stages:
             cd $(System.DefaultWorkingDirectory)/terraform
             chmod 400 set_azure_env.sh
           displayName: Copy set_azure_env.sh
+        
+        # install Terraform
+        - task: TerraformInstaller@0
+          displayName: Install Terraform
+          inputs:
+            terraformVersion: latest
+
+        - task: TerraformTaskV1@0
+          displayName: 'check terraform version'
+          inputs:
+            command: version
         
         - bash: |
             echo Set Terraform Environment
