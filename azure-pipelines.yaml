@@ -59,7 +59,7 @@ stages:
         - task: TerraformInstaller@0
           displayName: Install Terraform
           inputs:
-            terraformVersion: '0.13.5'
+            terraformVersion: '0.14.8'
         
         - bash: |
             echo System Default Working Directory: $(System.DefaultWorkingDirectory)
