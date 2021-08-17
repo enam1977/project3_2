@@ -12,38 +12,41 @@ stages:
         vmImage: 'ubuntu-18.04'
       steps:
         - task: TerraformInstaller@0
-          displayName: Install Terraform
-          inputs:
-              terraformVersion: latest
+            displayName: Install Terraform
+
+        - task: TerraformCLI@0
+            displayName: 'check terraform version'
+            inputs:
+              command: version
 
         - task: DownloadSecureFile@1
-          name: principal
-          displayName: 'Download azure principal confidential'
-          inputs:
-            secureFile: 'set_azure_env.sh'
+            name: principal
+            displayName: 'Download azure principal confidential'
+            inputs:
+              secureFile: 'set_azure_env.sh'
         
         - task: DownloadSecureFile@1
-          name: sshkey
-          displayName: 'Download SSH Public Key'
-          inputs:
-            secureFile: 'id_rsa.pub'
+            name: sshkey
+            displayName: 'Download SSH Public Key'
+            inputs:
+              secureFile: 'id_rsa.pub'
         
         - task: DownloadSecureFile@1
-          name: privatekey
-          displayName: 'Download SSH private Key'
-          inputs:
-            secureFile: 'id_rsa'
+            name: privatekey
+            displayName: 'Download SSH private Key'
+            inputs:
+              secureFile: 'id_rsa'
 
         - task: Bash@3
-          displayName: "Copy SSH key"
-          inputs:
-            targetType: 'inline'
-            script: |
-              mkdir -p ~/.ssh
-              cp $(sshkey.secureFilePath) ~/.ssh
-              cp $(privatekey.secureFilePath) ~/.ssh
-              chmod 400 ~/.ssh/id_rsa.pub
-              chmod 400 ~/.ssh/id_rsa
+            displayName: "Copy SSH key"
+            inputs:
+              targetType: 'inline'
+              script: |
+                mkdir -p ~/.ssh
+                cp $(sshkey.secureFilePath) ~/.ssh
+                cp $(privatekey.secureFilePath) ~/.ssh
+                chmod 400 ~/.ssh/id_rsa.pub
+                chmod 400 ~/.ssh/id_rsa
                    
         - bash: |
             cp $(principal.secureFilePath) $(System.DefaultWorkingDirectory)/terraform
