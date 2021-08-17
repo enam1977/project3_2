@@ -58,7 +58,7 @@ stages:
 - stage: Terraform 
   displayName: Terraform Init & Apply 
   jobs:
-    - job: Install Terraform
+    - job: install_terraform
       displayName:  Install Terraform
       steps:                        
         # install Terraform
@@ -83,7 +83,7 @@ stages:
             ls -la
           displayName: Check build environment
 
-    - job: Terraform Init
+    - job: terraform_init
       displayName: Terraform Init
       steps:       
         - task: TerraformTaskV1@0
@@ -102,8 +102,8 @@ stages:
         #     echo unlock state blob
         #     terraform force-unlock 35d91e94-b05b-7ec9-9c10-7d4f612c4f39
         #   displayName: Unlock state blob
-        
-    - job: Terraform Apply
+
+    - job: terraform_apply
       displayName: Terraform Apply
       steps:         
         - task: TerraformTaskV1@0
