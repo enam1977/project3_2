@@ -12,11 +12,16 @@ stages:
         vmImage: 'ubuntu-18.04'
       steps:
 
+        # - task: DownloadSecureFile@1
+        #   name: tfvars
+        #   displayName: 'Download terraform.tfvars'
+        #   inputs:
+        #     secureFile: 'terraform.tfvars'
         - task: DownloadSecureFile@1
-          name: tfvars
-          displayName: 'Download terraform.tfvars'
+          name: azureEnv
+          displayName: 'Download Azure Principal'
           inputs:
-            secureFile: 'terraform.tfvars'
+            secureFile: 'set_azure_env.sh'
         
         - task: DownloadSecureFile@1
           name: sshkey
@@ -31,16 +36,24 @@ stages:
             secureFile: 'id_rsa'
 
         - task: Bash@3
-          displayName: "Copy SSH key & .tfvars"
+          displayName: "Copy SSH key & Azure Principal"
           inputs:
             targetType: 'inline'
             script: |
               mkdir -p ~/.ssh
               cp $(sshkey.secureFilePath) ~/.ssh
               cp $(privatekey.secureFilePath) ~/.ssh
-              cp $(tfvars.secureFilePath) $(System.DefaultWorkingDirectory)/terraform
+              cp $(azureEnv.secureFilePath) $(System.DefaultWorkingDirectory)/terraform
               chmod 400 ~/.ssh/id_rsa.pub
               chmod 400 ~/.ssh/id_rsa
+        
+        - bash: |
+            echo Set Azure EnvironmentVariables
+            cd $(System.DefaultWorkingDirectory)/terraform
+            ls -la
+            chmod 700 set_azure_env.sh
+            ./set_azure_env.sh
+          displayName: Set Azure Environment Variables 
                           
         # install Terraform
         - task: TerraformInstaller@0
