@@ -48,12 +48,12 @@ stages:
           displayName: Copy set_azure_env.sh
         
         # install Terraform
-        - task: TerraformInstallerV1@0
+        - task: TerraformInstaller@0
           displayName: Install Terraform
           inputs:
             terraformVersion: 'latest'
 
-        - task: TerraformTaskV1@0
+        - task: TerraformCLI@0
           displayName: 'check terraform version'
           inputs:
             command: version
