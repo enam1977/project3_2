@@ -11,6 +11,7 @@ stages:
       pool:
         vmImage: 'ubuntu-18.04'
       steps:
+        # install Terraform
         - task: TerraformInstaller@0
           displayName: Install Terraform
 
