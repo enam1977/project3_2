@@ -12,12 +12,12 @@ stages:
         vmImage: 'ubuntu-18.04'
       steps:
         - task: TerraformInstaller@0
-            displayName: Install Terraform
+          displayName: Install Terraform
 
         - task: TerraformCLI@0
-            displayName: 'check terraform version'
-            inputs:
-              command: version
+          displayName: 'check terraform version'
+          inputs:
+            command: version
 
         - task: DownloadSecureFile@1
           name: principal
