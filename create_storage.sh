@@ -2,7 +2,7 @@
 
 RESOURCE_GROUP_NAME=proj3
 STORAGE_ACCOUNT_NAME=proj3$RANDOM
-CONTAINER_NAME=proj3con
+CONTAINER_NAME=proj3con1
 
 # Create resource group
 az group create --name $RESOURCE_GROUP_NAME --location eastus

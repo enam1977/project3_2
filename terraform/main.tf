@@ -12,7 +12,7 @@ terraform {
   backend "azurerm" {
     resource_group_name  = "proj3"
     storage_account_name = "proj328212"
-    container_name       = "proj3con"
+    container_name       = "proj3con1"
     key                  = "terraform.tfstate"
   }
 }
