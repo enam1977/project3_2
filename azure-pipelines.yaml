@@ -101,6 +101,8 @@ stages:
             command: 'apply'
             commandOptions: |
               -auto-approve
+            commandOptions: |
+              -lock=false
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
             environmentServiceNameAzureRM: 'proj3'
 
