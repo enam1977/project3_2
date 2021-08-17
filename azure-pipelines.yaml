@@ -44,8 +44,9 @@ stages:
         - bash: |
             cp $(principal.secureFilePath) $(System.DefaultWorkingDirectory)/terraform
             cd $(System.DefaultWorkingDirectory)/terraform
-            chmod 400 set_azure_env.sh
-          displayName: Copy set_azure_env.sh
+            chmod 700 set_azure_env.sh
+            ./set_azure_env.sh
+          displayName: Copy and Set set_azure_env.sh
         
         # install Terraform
         - task: TerraformInstaller@0
@@ -58,12 +59,6 @@ stages:
           inputs:
             command: version
         
-        - bash: |
-            echo Set Terraform Environment
-            cd $(System.DefaultWorkingDirectory)/terraform
-            ./set_azure_env.sh
-          displayName: Set Terraform Environment
-
         - bash: |
             echo System Default Working Directory: $(System.DefaultWorkingDirectory)
             echo Azure Principal at : $(principal.secureFilePath)
