@@ -93,9 +93,6 @@ stages:
         #     terraform force-unlock 35d91e94-b05b-7ec9-9c10-7d4f612c4f39
         #   displayName: Unlock state blob
 
-    - job: terraform_apply
-      displayName: Terraform plan & apply
-      steps:  
         - task: TerraformTaskV1@0
           displayName: Terraform Plan
           inputs:
