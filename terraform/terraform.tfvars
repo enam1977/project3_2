@@ -8,7 +8,7 @@ tenant_id = ""
 location = "eastus"
 resource_group = "prj3QA"
 application_type = "QA"
-admin_username  = "user"
+admin_username  = "userQA"
 
 # Network
 virtual_network_name = "proj3_vm"
