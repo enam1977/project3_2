@@ -15,7 +15,7 @@ variable address_prefix_test {}
 variable address_space {}
 
 #vm
-variable "admin_username" {}
+#variable "admin_username" {}
 variable "image_id"{}
 
 
