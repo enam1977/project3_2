@@ -116,20 +116,68 @@ stages:
   jobs:    
   - job: Build
     pool:
-      name: Hosted Ubuntu 1604
+      vmImage: 'ubuntu-18.04'
     steps:
-    # Needed for Terraform VM deployment
-    
-    - task: ArchiveFiles@2
-      displayName: 'Archive FakeRestAPI'
-      inputs:
-        rootFolderOrFile: 'path/to/fakerestapi'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
-      displayName: 'Upload Package'
-      artifact: drop-fakerestapi
+    # Needed for Terraform VM deployment   
+      - task: ArchiveFiles@2
+        displayName: 'Archive FakeRestAPI'
+        inputs:
+          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/fakerestapi'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
+
+      - task: NodeTool@0
+        displayName: Install Node 14.x
+        inputs: 
+          versionSpec: '14.x'
+
+      - bash: |
+          npm install -g newman
+          newman -v
+          # create log dirctry
+          mkdir -p log/newman
+          pwd
+          ls -la
+        displayName: Install Newman
+
+      - bash: |
+          newman run automatedtesting/postman/RegressionTest.json \
+                     -e automatedtesting/postman/Proj3.postman_environment.json \
+                     -r cli,junit \
+                     --reporter-junit-export log/newman/regression-test.xml \
+                     --suppress-exit-code
+        displayName: Newman Regression Test
+
+      - bash: |
+          newman run automatedtesting/postman/DataValidationTest.json \
+                     -e automatedtesting/postman/Proj3.postman_environment.json \
+                     -r cli,junit \
+                     --reporter-junit-export log/newman/regression-test.xml \
+                     --suppress-exit-code
+          ls -la $(System.DefaultWorkingDirectory)/log/newman
+        displayName: Newman Regression Test
+
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Newman logs
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)/log/newman'
+          artifactName: 'drop-newman-logs'
+
+      - task: PublishTestResults@2
+        displayName: 'Publish Newman test results'
+        inputs:
+          testRunner: 'JUnit'
+          searchFolder: '$(System.DefaultWorkingDirectory)/log/newman'
+          testResultsFiles: '*.xml'
+          mergeTestResults: true
+          testRunTitle: 'Publish Newman test results'
+
+      - task: PublishPipelineArtifact@1
+        displayName: Publish FakeRestAPI artifact
+        inputs:
+          targetPath: '$(Build.ArtifactStagingDirectory)/fakerestapi-$(Build.BuildId).zip'
+          artifactName: 'drop-fakerestapi'
 
 
 # - stage: Deployment
