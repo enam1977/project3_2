@@ -122,7 +122,7 @@ stages:
       - task: ArchiveFiles@2
         displayName: 'Archive FakeRestAPI'
         inputs:
-          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/jmeter/fakerestapi'
+          rootFolderOrFile: 'automatedtesting/jmeter/fakerestapi'
           includeRootFolder: false
           archiveType: 'zip'
           archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
