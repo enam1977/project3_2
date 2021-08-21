@@ -153,10 +153,10 @@ stages:
           newman run automatedtesting/postman/DataValidationTest.json \
                      -e automatedtesting/postman/Proj3.postman_environment.json \
                      -r cli,junit \
-                     --reporter-junit-export log/newman/regression-test.xml \
+                     --reporter-junit-export log/newman/data-validation-test.xml \
                      --suppress-exit-code
           ls -la $(System.DefaultWorkingDirectory)/log/newman
-        displayName: Newman Regression Test
+        displayName: Newman DataValidationTest Test
 
       - task: PublishPipelineArtifact@1
         displayName: Publish Newman logs
@@ -176,7 +176,7 @@ stages:
       - task: PublishPipelineArtifact@1
         displayName: Publish FakeRestAPI artifact
         inputs:
-          targetPath: '$(Build.ArtifactStagingDirectory)/fakerestapi-$(Build.BuildId).zip'
+          targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
           artifactName: 'drop-fakerestapi'
 
 
