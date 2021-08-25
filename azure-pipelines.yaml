@@ -227,10 +227,11 @@ stages:
               pwd
               python3 -V
               pip3 -V
-              unzip
+              # unzip
               /usr/bin/chromium-browser --version
               /usr/bin/chromedriver --version
-              python3 -c "import selenium; print('Selenium Version:', selenium.__version__)"
+              pip3 install selenium
+              python3 -c "print('Selenium Version:', selenium.__version__)"
             displayName: Configure selenium and VM
 
 - stage: Tests
@@ -246,5 +247,9 @@ stages:
           steps:
           - bash: |
               pwd
+              cd $(Pipeline.Workspace)/drop-selenium
+              unzip -o $(Build.BuildId)-selenium.zip
+              ls -la
+              python3 login.py
             displayName: Selenium tests
 
