@@ -248,6 +248,6 @@ stages:
         deploy:
           steps:
           - bash: |
-            pwd
-          displayName: Selenium tests
+              pwd
+            displayName: Selenium tests
 
