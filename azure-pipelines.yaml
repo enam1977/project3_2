@@ -201,9 +201,6 @@ stages:
     pool:
       vmImage: 'Ubuntu-18.04'
     environment: 'TEST'
-    variables:
-      resourceManager: proj3
-      prefix: lmy93
     strategy:
       runOnce:
         deploy:
@@ -211,8 +208,8 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App'
             inputs:
-              azureSubscription: $(resourceManager)
-              appName: '$(prefix)-fakerestapi'
+              azureSubscription: 'proj3'
+              appName: 'lmy93-fakerestapi'
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
               deploymentMethod: zipDeploy
