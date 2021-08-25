@@ -180,7 +180,7 @@ stages:
           testRunTitle: 'Publish Newman test results'
 
       - task: ArchiveFiles@2
-        displayName: 'Archive FakeRestAPI'
+        displayName: 'Archive selenium'
         inputs:
           rootFolderOrFile: 'automatedtesting/selenium'
           includeRootFolder: false
@@ -209,7 +209,7 @@ stages:
             displayName: 'Deploy Azure Web App'
             inputs:
               azureSubscription: 'proj3'
-              appName: 'lmy93-fakerestapi'
+              appName: 'QA-AppService'
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
               deploymentMethod: zipDeploy
