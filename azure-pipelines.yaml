@@ -231,7 +231,7 @@ stages:
               /usr/bin/chromium-browser --version
               /usr/bin/chromedriver --version
               pip3 install selenium
-              python3 -c "print('Selenium Version:', selenium.__version__)"
+              # python3 -c "print('Selenium Version:', selenium.__version__)"
             displayName: Configure selenium and VM
 
 - stage: Tests
