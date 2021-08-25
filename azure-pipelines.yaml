@@ -248,6 +248,7 @@ stages:
           - bash: |
               pwd
               cd $(Pipeline.Workspace)/drop-selenium
+              find . -type f ! -name '$(Build.BuildId)-selenium.zip' -delete  
               unzip -o $(Build.BuildId)-selenium.zip
               ls -la
               python3 login.py
