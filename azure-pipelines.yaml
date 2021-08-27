@@ -224,11 +224,11 @@ stages:
         jmeterVersion: '5.4.1'
     - bash: |
         pwd
-        ls -la
-        # touch log.csv
-        # mkdir -p jmeter_results
-        # jmeter -n -t automatedtesting/jmeter/endurance_test.jmx \ 
-        #        -Jresdir=automatedtesting/jmeter/pages.csv
+        #ls -la
+        cd automatedtesting/jmeter
+        touch log.csv
+        mkdir jmeter_results
+        jmeter -n -t endurance_test.jmx -e -f -o jmeter_results
       displayName: Run Jmeter Tests
 
  
