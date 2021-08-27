@@ -214,22 +214,22 @@ stages:
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
               deploymentMethod: zipDeploy
 
-    - job: Jmeter
-      pool: 
-        vmImage: 'Ubuntu-18.04'
-      steps:
-      - task: JMeterInstaller@0
-        displayName: Install Jmeter
-        inputs:
-          jmeterVersion: '5.4.1'
-      - bash: |
-          pwd
-          ls -la
-          # touch log.csv
-          # mkdir -p jmeter_results
-          # jmeter -n -t automatedtesting/jmeter/endurance_test.jmx \ 
-          #        -Jresdir=automatedtesting/jmeter/pages.csv
-        displayName: Run Jmeter Tests
+  - job: Jmeter
+    pool: 
+      vmImage: 'Ubuntu-18.04'
+    steps:
+    - task: JMeterInstaller@0
+      displayName: Install Jmeter
+      inputs:
+        jmeterVersion: '5.4.1'
+    - bash: |
+        pwd
+        ls -la
+        # touch log.csv
+        # mkdir -p jmeter_results
+        # jmeter -n -t automatedtesting/jmeter/endurance_test.jmx \ 
+        #        -Jresdir=automatedtesting/jmeter/pages.csv
+      displayName: Run Jmeter Tests
 
  
   - deployment: VMDeploy
