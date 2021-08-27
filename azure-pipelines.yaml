@@ -228,7 +228,7 @@ stages:
         cd automatedtesting/jmeter
         touch log.csv
         mkdir jmeter_results
-        jmeter -n -t endurance_test.jmx -l log.csv -e -f -o jmeter_results
+        jmeter -n -t endurance_test.jmx -e -l log.csv -f -o jmeter_results
       displayName: Run Jmeter Tests
 
  
