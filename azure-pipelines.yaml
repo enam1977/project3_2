@@ -226,10 +226,22 @@ stages:
         pwd
         #ls -la
         cd automatedtesting/jmeter
-        touch log.csv
-        mkdir jmeter_results
-        jmeter -n -t endurance_test.jmx -e -l log.csv -f -o jmeter_results
+        touch endurance_test.csv
+        mkdir -p jmeter_results/endurance_test
+        jmeter -n -t endurance_test.jmx \ 
+               -l endurance_test.csv \
+               -e -f -o jmeter_results/endurance_test \
+               -j endurance_test.log
       displayName: Run Jmeter Tests
+
+    - task: ArchiveFiles@2
+      displayName: Archive JMeter endurance test HTML report
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/jmeter_results/endurance_test
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(System.DefaultWorkingDirectory)/automatedtesting/jmeter/jmeter_results/endurance-test-html-report-$(Build.BuildId).zip'
+        verbose: true
 
  
   - deployment: VMDeploy
