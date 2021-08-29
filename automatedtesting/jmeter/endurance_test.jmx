@@ -19,7 +19,7 @@
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">2</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">0</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.duration">1</stringProp>
         <stringProp name="ThreadGroup.delay">2</stringProp>
