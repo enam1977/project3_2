@@ -244,7 +244,7 @@ stages:
       displayName: Install Jmeter
       inputs:
         jmeterVersion: '5.4.1'
-        
+
     - bash: |
         pwd
         #ls -la
@@ -259,8 +259,7 @@ stages:
         pwd
         mkdir -p log/jmeter_stress_test_report
         ls -la
-        jmeter -n -t automatedtesting/jmeter/stress_test.jmx \ 
-               -l log/stress_test.jtl \
+        jmeter -n -t automatedtesting/jmeter/stress_test.jmx -l log/stress_test.jtl \
                -e -f -o  log/jmeter_stress_test_report \
       displayName: Run Stress Test
 
