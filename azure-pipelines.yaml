@@ -269,24 +269,6 @@ stages:
         targetPath: '$(System.DefaultWorkingDirectory)/log'
         artifactName: 'drop-jmeter-reports'
 
-    # - task: ArchiveFiles@2
-    #   displayName: Archive JMeter endurance test HTML report
-    #   inputs:
-    #     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter_endurance_test_report'
-    #     includeRootFolder: false
-    #     archiveType: 'zip'
-    #     archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter-endurance-test-html-report-$(Build.BuildId).zip'
-    #     verbose: true
-    
-    # - task: ArchiveFiles@2
-    #   displayName: Archive JMeter stress test HTML report
-    #   inputs:
-    #     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter_stress_test_report'
-    #     includeRootFolder: false
-    #     archiveType: 'zip'
-    #     archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter-stress-test-html-report-$(Build.BuildId).zip'
-    #     verbose: true
-
 - stage: Tests
   jobs: 
   - deployment: test_vm
@@ -303,8 +285,13 @@ stages:
               cd $(Pipeline.Workspace)/drop-selenium
               find . -type f ! -name '$(Build.BuildId)-selenium.zip' -delete  
               unzip -o $(Build.BuildId)-selenium.zip
+              pwd
+              python3 login.py 2>&1 | tee selenium-test.log
               ls -la
-              python3 login.py
+              # copy selenium log file to $(System.DefaultWorkingDirectory)/log/selenium/
+              cd $(System.DefaultWorkingDirectory)
+              mkdir -p log/selenium
+              
             displayName: Selenium tests
         
 
