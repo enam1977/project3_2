@@ -291,8 +291,18 @@ stages:
               # copy selenium log file to $(System.DefaultWorkingDirectory)/log/selenium/
               cd $(System.DefaultWorkingDirectory)
               mkdir -p log/selenium
-              
+              cp $(Pipeline.Workspace)/drop-selenium/selenium-test.log log/selenium/selenium-test.log
+              cd log/selenium
+              ls -la
+              cat selenium-test.log
             displayName: Selenium tests
+
+          - task: PublishPipelineArtifact@1
+            displayName: Publish selenium logs
+            inputs:
+              targetPath: '$(System.DefaultWorkingDirectory)/log/selenium/selenium-test.log'
+              artifactName: 'drop-selenium-logs'
+
         
 
     
