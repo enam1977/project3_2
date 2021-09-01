@@ -43,7 +43,7 @@ def add_items(driver,nums):
         driver.find_element_by_css_selector(prod).click()
         driver.find_element_by_css_selector('button.btn_primary.btn_inventory').click()
         product = driver.find_element_by_css_selector("div[class='inventory_details_name large_size']").text 
-        logging.info(+"Add "+ product +" to cart successfully!")
+        logging.info("Add "+ product +" to cart successfully!")
         # back to main menu
         driver.find_element_by_css_selector('button[id=back-to-products]').click()
     logging.info(str(nums)+" products has been added to the cart.")
