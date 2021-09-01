@@ -23,7 +23,7 @@ def login (user, password):
     options.add_argument('--no-sandbox')
     #options.add_argument('--disable-dev-shm-usage')
     driver = webdriver.Chrome('/usr/bin/chromedriver',options=options)
-    print ('Browser started successfully. Navigating to the demo page to login.')
+    # print ('Browser started successfully. Navigating to the demo page to login.')
     driver.get('https://www.saucedemo.com/')
     # input user, password 
     driver.find_element_by_css_selector("input[id=user-name]").send_keys(user)
