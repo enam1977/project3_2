@@ -298,7 +298,7 @@ stages:
               cd log/selenium
               pwd
               ls -la
-              cat selenium-test.log
+              cat selenium-test.log.txt
             displayName: Selenium tests
 
           - task: PublishPipelineArtifact@1

@@ -16,7 +16,7 @@ logging.basicConfig(
 
 # Start the browser and login with standard_user
 def login (user, password):
-    #print ('Starting the browser...')
+    logging.info('Starting the browser...')
     # --uncomment when running in Azure DevOps.
     options = ChromeOptions()
     # solve DevToolsActivePort  
