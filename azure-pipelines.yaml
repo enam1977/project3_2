@@ -286,12 +286,14 @@ stages:
               find . -type f ! -name '$(Build.BuildId)-selenium.zip' -delete  
               unzip -o $(Build.BuildId)-selenium.zip
               pwd
-              python3 login.py 2>&1 | tee selenium-test.log
+              mkdir -p /var/log/selenium
+              chmod 664 /var/log/selenium
+              python3 login.py 2>&1 | tee -a /var/log/selenium/selenium-test.log
               ls -la
               # copy selenium log file to $(System.DefaultWorkingDirectory)/log/selenium/
               cd $(System.DefaultWorkingDirectory)
               mkdir -p log/selenium
-              cp $(Pipeline.Workspace)/drop-selenium/selenium-test.log log/selenium/selenium-test.log
+              cp /var/log/selenium/selenium-test.log log/selenium/selenium-test.log
               cd log/selenium
               pwd
               ls -la
