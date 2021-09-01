@@ -293,6 +293,7 @@ stages:
               mkdir -p log/selenium
               cp $(Pipeline.Workspace)/drop-selenium/selenium-test.log log/selenium/selenium-test.log
               cd log/selenium
+              pwd
               ls -la
               cat selenium-test.log
             displayName: Selenium tests
