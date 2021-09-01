@@ -1,17 +1,18 @@
 # #!/usr/bin/env python
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-import datetime
+import logging
+
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 # driver = webdriver.Chrome()
 # print ('Browser started successfully. Navigating to the demo page to login.')
 # driver.get('https://www.saucedemo.com/')
 
-def timestamp():
-    ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return ts + ' '
 
-# print(timestamp())
 
 # Start the browser and login with standard_user
 def login (user, password):
@@ -31,7 +32,7 @@ def login (user, password):
     driver.find_element_by_css_selector("input[id=login-button]").click()
     product_label = driver.find_element_by_css_selector("span[class=title").text
     assert "PRODUCTS" in product_label
-    print(timestamp()+'Login with username: {:s} and password: {:s} successfully.'.format(user, password))
+    logging.info('Login with username: {:s} and password: {:s} successfully.'.format(user, password))
     return driver
 
 # add all items to cart
@@ -42,10 +43,10 @@ def add_items(driver,nums):
         driver.find_element_by_css_selector(prod).click()
         driver.find_element_by_css_selector('button.btn_primary.btn_inventory').click()
         product = driver.find_element_by_css_selector("div[class='inventory_details_name large_size']").text 
-        print(timestamp()+"Add "+ product +" to cart successfully!")
+        logging.info(+"Add "+ product +" to cart successfully!")
         # back to main menu
         driver.find_element_by_css_selector('button[id=back-to-products]').click()
-    print(timestamp()+str(nums)+" products has been added to the cart.")
+    logging.info(str(nums)+" products has been added to the cart.")
 
 def remove_items(driver,nums):
     for i in range(nums):
@@ -54,10 +55,10 @@ def remove_items(driver,nums):
         driver.find_element_by_css_selector(prod).click()
         driver.find_element_by_css_selector('button.btn_secondary.btn_inventory').click()
         product = driver.find_element_by_css_selector("div[class='inventory_details_name large_size']").text 
-        print(timestamp()+"Remove "+ product +" from the cart successfully!")
+        logging.info("Remove "+ product +" from the cart successfully!")
         # back to main menu
         driver.find_element_by_css_selector('button[id=back-to-products]').click()
-    print(timestamp()+str(nums)+" products has been removed from the cart.")
+    logging.info(str(nums)+" products has been removed from the cart.")
 
 if __name__ == "__main__":
     USERNAME = 'standard_user'
@@ -67,4 +68,4 @@ if __name__ == "__main__":
     nums = 6
     add_items(driver,nums)
     remove_items(driver,nums)
-    print(timestamp()+'Selenium tests are all successfully completed!')
+    logging.info('Selenium tests are all successfully completed!')
