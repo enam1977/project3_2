@@ -256,6 +256,7 @@ stages:
               sudo chmod 764 /var/log/selenium
               sudo python3 login.py 2>&1 | sudo tee -a /var/log/selenium/selenium-test.log.txt
               sudo chmod 755 /var/log/selenium/selenium-test.log.txt
+              sudo cat /var/log/selenium/selenium-test.log.txt
               ls -la
               # copy selenium log file to $(System.DefaultWorkingDirectory)/log/selenium/
               cd $(System.DefaultWorkingDirectory)
@@ -263,9 +264,6 @@ stages:
               sudo cp /var/log/selenium/selenium-test.log.txt log/selenium/selenium-test.log.txt
               cd log/selenium
               pwd
-              ls -la
-              cat selenium-test.log.txt
-              cd /var/log/selenium
               ls -la
             displayName: Selenium tests
 
