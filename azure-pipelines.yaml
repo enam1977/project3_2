@@ -233,41 +233,6 @@ stages:
               # python3 -c "print('Selenium Version:', selenium.__version__)"
             displayName: Configure selenium and VM
 
-- stage: JMeterTests
-  displayName: JMeter Tests
-  jobs:
-  - job: Jmeter
-    pool: 
-      vmImage: 'Ubuntu-18.04'
-    steps:
-    - task: JMeterInstaller@0
-      displayName: Install Jmeter
-      inputs:
-        jmeterVersion: '5.4.1'
-
-    - bash: |
-        pwd
-        #ls -la
-        mkdir -p log/jmeter_endurance_test_report
-        # touch endurance_test.csv
-        
-        jmeter -n -t automatedtesting/jmeter/endurance_test.jmx -l log/endurance_test.jtl \
-               -e -f -o  log/jmeter_endurance_test_report \
-      displayName: Run Endurance Test
-
-    - bash: |
-        pwd
-        mkdir -p log/jmeter_stress_test_report
-        ls -la
-        jmeter -n -t automatedtesting/jmeter/stress_test.jmx -l log/stress_test.jtl \
-               -e -f -o  log/jmeter_stress_test_report \
-      displayName: Run Stress Test
-
-    - task: PublishPipelineArtifact@1
-      displayName: Publish Jmeter Results
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/log'
-        artifactName: 'drop-jmeter-reports'
 
 - stage: Tests
   jobs: 
@@ -309,6 +274,44 @@ stages:
             inputs:
               targetPath: '$(System.DefaultWorkingDirectory)/log/selenium/selenium-test.log.txt'
               artifactName: 'drop-selenium-logs'
+
+- stage: JMeterTests
+  displayName: JMeter Tests
+  jobs:
+  - job: Jmeter
+    pool: 
+      vmImage: 'Ubuntu-18.04'
+    steps:
+    - task: JMeterInstaller@0
+      displayName: Install Jmeter
+      inputs:
+        jmeterVersion: '5.4.1'
+
+    - bash: |
+        pwd
+        #ls -la
+        mkdir -p log/jmeter_endurance_test_report
+        # touch endurance_test.csv
+        
+        jmeter -n -t automatedtesting/jmeter/endurance_test.jmx -l log/endurance_test.jtl \
+               -e -f -o  log/jmeter_endurance_test_report \
+      displayName: Run Endurance Test
+
+    - bash: |
+        pwd
+        mkdir -p log/jmeter_stress_test_report
+        ls -la
+        jmeter -n -t automatedtesting/jmeter/stress_test.jmx -l log/stress_test.jtl \
+               -e -f -o  log/jmeter_stress_test_report \
+      displayName: Run Stress Test
+
+    - task: PublishPipelineArtifact@1
+      displayName: Publish Jmeter Results
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/log'
+        artifactName: 'drop-jmeter-reports'
+
+
 
         
 
