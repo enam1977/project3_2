@@ -290,6 +290,7 @@ stages:
               sudo mkdir -p /var/log/selenium
               sudo chmod 764 /var/log/selenium
               sudo python3 login.py 2>&1 | sudo tee -a /var/log/selenium/selenium-test.log.txt
+              sudo chmod 755 /var/log/selenium/selenium-test.log.txt
               ls -la
               # copy selenium log file to $(System.DefaultWorkingDirectory)/log/selenium/
               cd $(System.DefaultWorkingDirectory)
