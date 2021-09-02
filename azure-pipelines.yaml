@@ -288,7 +288,7 @@ stages:
               pwd
               # add sudo here
               sudo mkdir -p /var/log/selenium
-              sudo chmod 664 /var/log/selenium
+              sudo chmod 764 /var/log/selenium
               sudo python3 login.py 2>&1 | sudo tee -a /var/log/selenium/selenium-test.log.txt
               ls -la
               # copy selenium log file to $(System.DefaultWorkingDirectory)/log/selenium/
@@ -299,6 +299,8 @@ stages:
               pwd
               ls -la
               cat selenium-test.log.txt
+              cd /var/log/selenium
+              ls -la
             displayName: Selenium tests
 
           - task: PublishPipelineArtifact@1
