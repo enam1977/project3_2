@@ -193,6 +193,8 @@ stages:
           targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-selenium.zip'
           artifactName: 'drop-selenium'
 
+
+
 - stage: Deployment
   jobs:
   - deployment: deployment_FakeRestAPI
@@ -233,7 +235,6 @@ stages:
               # python3 -c "print('Selenium Version:', selenium.__version__)"
             displayName: Configure selenium and VM
 
-
 - stage: Tests
   jobs: 
   - deployment: test_vm
@@ -253,7 +254,7 @@ stages:
               pwd
               # add sudo here
               sudo mkdir -p /var/log/selenium
-              sudo chmod 764 /var/log/selenium
+              sudo chmod 775 /var/log/selenium
               sudo python3 login.py 2>&1 | sudo tee -a /var/log/selenium/selenium-test.log.txt
               sudo chmod 775 /var/log/selenium/selenium-test.log.txt
               echo "Display /var/log/selenium/selenium-test.log.txt"
