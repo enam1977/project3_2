@@ -5,7 +5,7 @@ client_secret   = ""
 tenant_id       = ""
 
 # Resource Group/Location
-location         = "eastus"
+location         = "Central US"
 resource_group   = "prj3QA"
 application_type = "QA"
 admin_username   = "userQA"
