@@ -214,7 +214,7 @@ stages:
       - deployment: VMDeploy
         displayName: Deploy a VM
         environment:
-          name: "TEST"
+          name: "NEWTEST"
           resourceType: VirtualMachine
         strategy:
           runOnce:
